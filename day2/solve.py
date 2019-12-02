@@ -31,20 +31,16 @@ def main():
 
     output = 0
     noun = 0
-    verb = 0
-    while noun < 100:
+    verb = -1
+    # 1202 Alarm state output: 4690667 - 19690720
+    while noun < 100 and output != 4690667:
+        verb += 1
+        if verb > 99:
+            verb = 0
+            noun += 1
         input[1] = noun
         input[2] = verb
         output = compute(input)
-        # 1202 Alarm state output: 4690667
-        # Special output: 4690667
-        if output == 19690720:
-            break
-        else:
-            verb += 1
-            if verb > 99:
-                verb = 0
-                noun += 1
 
     print("THE CODE IS:{0}".format(noun*100 + verb))
 
