@@ -33,7 +33,7 @@ def main():
     noun = 0
     verb = -1
     # 1202 Alarm state output: 4690667
-    while noun < 100 and output != 4690667:
+    while noun < 100 and output != 19690720:
         verb += 1
         if verb > 99:
             verb = 0
