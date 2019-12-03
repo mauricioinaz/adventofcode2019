@@ -1,15 +1,9 @@
-from collections import defaultdict
-
 COMPASS = {
     'U': (1, 0),
     'D': (-1, 0),
     'R': (0, 1),
     'L': (0, -1)
 }
-
-
-def calc_manhattan(tup):
-    return abs(tup[0]) + abs(tup[1])
 
 
 def main():
@@ -20,30 +14,26 @@ def main():
 
     # Calculate routes and crossings
     cable_route = {}
-    wire_crosses = set()
+    wire_crosses = []
     for i, cable in enumerate(input):
         location = (0, 0)
+        total_steps = 0
         for corner in cable:
             direction = COMPASS[corner[0]]
             steps = int(corner[1:])
             while steps > 0:
+                total_steps += 1
                 location = tuple(a+b for a, b in zip(direction, location))
+                # create first cable route
                 if i == 0:
-                    cable_route[location] = location
+                    cable_route[location] = total_steps
+                # find crossings with second cable
                 elif i == 1:
                     if cable_route.get(location):
-                        wire_crosses.add(location)
+                        wire_crosses.append(total_steps + cable_route[location])
                 steps -= 1
 
-    # Find Shortest distance
-    shortes_distance = calc_manhattan(wire_crosses.pop())
-    tmp = shortes_distance
-    while wire_crosses:
-        tmp = calc_manhattan(wire_crosses.pop())
-        if tmp < shortes_distance:
-            shortes_distance = tmp
-
-    print(shortes_distance)
+    print("Shortest distance is {} steps".format(min(wire_crosses)))
 
 
 if __name__ == "__main__":
