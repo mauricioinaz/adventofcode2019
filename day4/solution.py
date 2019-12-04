@@ -26,9 +26,9 @@ def main():
     n = lower_limit
     number_of_passwords = 0
     while n < upper_limit:
-        n = get_next_increase(n)
         if has_doubles(n):
             number_of_passwords += 1
+        n = get_next_increase(n)
 
     print(number_of_passwords)
 
