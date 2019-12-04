@@ -11,7 +11,10 @@ def next_increase(numb):
 
 
 def has_doubles(numb):
-    return len(set(numb)) < len(numb)
+    for n in numb:
+        if numb.count(n) == 2:
+            return True
+    return False
 
 
 def main():
