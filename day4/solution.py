@@ -11,8 +11,7 @@ def next_increase(numb):
 
 
 def has_doubles(numb):
-    numb_str = str(numb)
-    return len(set(numb_str)) < len(numb_str)
+    return len(set(numb)) < len(numb)
 
 
 def main():
