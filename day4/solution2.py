@@ -1,6 +1,6 @@
 def incremental(numb):
-    numb_str = ''.join(sorted(str(numb)))
-    return str(numb) == numb_str
+    sorted_numb_str = ''.join(sorted(str(numb)))
+    return str(numb) == sorted_numb_str
 
 
 def has_doubles(number):
