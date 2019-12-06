@@ -1,9 +1,3 @@
-def get_by_mode(value, position, mode):
-    if mode:
-        return value
-    return position
-
-
 def compute(original_data, input):
     # copy of data
     data = [x for x in original_data]
@@ -12,11 +6,13 @@ def compute(original_data, input):
 
     pointer = 0
     while(pointer < len(data)):
+        # 0 position mode
+        # 1 immediate mode
         A = data[pointer] // 10000 % 10
         B = data[pointer] // 1000 % 10
         C = data[pointer] // 100 % 10
         opcode = data[pointer] % 100
-        if opcode != 3 or opcode != 4:
+        if not (opcode == 3 or opcode == 4 or opcode == 99):
             if C:
                 param1 = data[pointer+1]
             else:
@@ -42,55 +38,54 @@ def compute(original_data, input):
             if C:
                 data[pointer+1] = input
             else:
-                print('WEIRD???')
                 data[data[pointer+1]] = input
             pointer += 2
         elif opcode == 4:
+            last_output = data[data[pointer+1]]
             pointer += 2
-            last_output = data[pointer+1]
         elif opcode == 5:
             if param1 != 0:
-                pointer = data[pointer+2]
+                pointer = param2
             else:
                 pointer += 3
         elif opcode == 6:
             if param1 == 0:
-                pointer = data[pointer+2]
+                pointer = param2
             else:
                 pointer += 3
         elif opcode == 7:
-            print('OPCODE 7')
-            print(data[pointer])
             if param1 < param2:
                 data[data[pointer+3]] = 1
             else:
                 data[data[pointer+3]] = 0
+            pointer += 4
         elif opcode == 8:
-            print('OPCODE 8')
-            print(data[pointer])
             if param1 == param2:
                 data[data[pointer+3]] = 1
             else:
                 data[data[pointer+3]] = 0
+            pointer += 4
         elif opcode == 99:
             print('HALTED WITH 99')
-            return last_output
+            return data, last_output
         else:
             raise ValueError('Wrong optocode, pointer: {0}, opcode {1}'.format(pointer, opcode))
 
     print('CODE DID NOT HALT. :(')
-    return None
+    return data, last_output
 
 
 def main():
     data = open('input.txt', 'r').read().strip().split(',')
     data = [int(x) for x in data]
 
-    input = 5
+    print('Submit your input: (5 for thermal radiator controller or 1 for testing )')
+    input_id = input()
 
-    output = compute(data, input)
+    data, output = compute(data, input_id)
 
     print("CODE IS: {0}".format(output))
+    # print(data)
 
 
 if __name__ == "__main__":
