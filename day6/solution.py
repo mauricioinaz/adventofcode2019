@@ -28,14 +28,13 @@ def main():
         celestial_objects[tmp_obj.name] = tmp_obj
 
     # PART 1
-    # checksum = 0
-    # for obj_name in celestial_objects:
-    #     tmp_obj = celestial_objects[obj_name]
-    #     while tmp_obj.orbits_around:
-    #         checksum += 1
-    #         tmp_obj = celestial_objects[tmp_obj.orbits_around]
-    #
-    # print(checksum)
+    checksum = 0
+    for obj_name in celestial_objects:
+        tmp_obj = celestial_objects[obj_name]
+        checksum += len(tmp_obj.jumps_to_com(celestial_objects))
+
+    print('The total jumps are {0}'.format(checksum))
+
 
     # PART 2
     you = celestial_objects['YOU']
@@ -45,7 +44,7 @@ def main():
     santa_jumps = santa.jumps_to_com(celestial_objects)
 
     orbit_transfers = len(you_jumps - santa_jumps) + len(santa_jumps - you_jumps) - 2
-    print('The minimum orbital transfers is: {}'.format(orbit_transfers))
+    print('The minimum orbital transfers between you and Santa is: {}'.format(orbit_transfers))
 
 
 if __name__ == "__main__":
