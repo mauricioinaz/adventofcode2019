@@ -16,7 +16,7 @@ def compute(original_data, input):
         B = data[pointer] // 1000 % 10
         C = data[pointer] // 100 % 10
         opcode = data[pointer] % 100
-        if opcode == 1 or opcode == 2:
+        if opcode != 3 or opcode != 4:
             if C:
                 param1 = data[pointer+1]
             else:
@@ -48,6 +48,30 @@ def compute(original_data, input):
         elif opcode == 4:
             pointer += 2
             last_output = data[pointer+1]
+        elif opcode == 5:
+            if param1 != 0:
+                pointer = data[pointer+2]
+            else:
+                pointer += 3
+        elif opcode == 6:
+            if param1 == 0:
+                pointer = data[pointer+2]
+            else:
+                pointer += 3
+        elif opcode == 7:
+            print('OPCODE 7')
+            print(data[pointer])
+            if param1 < param2:
+                data[data[pointer+3]] = 1
+            else:
+                data[data[pointer+3]] = 0
+        elif opcode == 8:
+            print('OPCODE 8')
+            print(data[pointer])
+            if param1 == param2:
+                data[data[pointer+3]] = 1
+            else:
+                data[data[pointer+3]] = 0
         elif opcode == 99:
             print('HALTED WITH 99')
             return last_output
@@ -62,7 +86,7 @@ def main():
     data = open('input.txt', 'r').read().strip().split(',')
     data = [int(x) for x in data]
 
-    input = 1
+    input = 5
 
     output = compute(data, input)
 
