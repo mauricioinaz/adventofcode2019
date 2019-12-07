@@ -79,8 +79,9 @@ def main():
     data = open('input.txt', 'r').read().strip().split(',')
     data = [int(x) for x in data]
 
+    print(data)
     print('Submit your input: (5 for thermal radiator controller or 1 for testing )')
-    input_id = input()
+    input_id = int(input())
 
     data, output = compute(data, input_id)
 
