@@ -5,27 +5,40 @@ def main():
 
     numb_layers = len(data)//(25*6)
     layers = [[] for _ in range(0, numb_layers)]
-    print(len(layers))
     for i, pixel in enumerate(data):
         layers[(i*numb_layers) // len(data)].append(pixel)
 
-    least_zeroes = None
-    layer_id = None
-    for i, layer in enumerate(layers):
-        zeroes = 0
-        for pixel in layer:
-            if pixel == 0:
-                zeroes += 1
-        if least_zeroes:
-            if zeroes < least_zeroes:
-                least_zeroes = zeroes
-                layer_id = i
-        else:
-            least_zeroes = zeroes
+    # PART 1
+    # least_zeroes = None
+    # layer_id = None
+    # for i, layer in enumerate(layers):
+    #     zeroes = 0
+    #     for pixel in layer:
+    #         if pixel == 0:
+    #             zeroes += 1
+    #     if least_zeroes:
+    #         if zeroes < least_zeroes:
+    #             least_zeroes = zeroes
+    #             layer_id = i
+    #     else:
+    #         least_zeroes = zeroes
+    #
+    # result = layers[layer_id].count(1) * layers[layer_id].count(2)
+    # print(f'The number of 1*numbers of 2 in layer with least zeroes is: {result}')
 
-    result = layers[layer_id].count(1) * layers[layer_id].count(2)
-    print(f'The number of 1*numbers of 2 in layer with least zeroes is: {result}')
 
+    # PART 2
+    final_message = [2 for _ in range(0, len(layers[0]))]
+    for layer in layers:
+        for i, pixel in enumerate(layer):
+            if final_message[i] == 2 and pixel != 2:
+                final_message[i] = pixel
+
+    final_message = [str(c) for c in final_message]
+
+    # Print Result
+    for row in range(0, 6):
+        print(''.join(final_message[(row*25):(row*25+25)]))
 
 if __name__ == "__main__":
     main()
