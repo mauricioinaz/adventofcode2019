@@ -1,4 +1,7 @@
 
+import matplotlib.pyplot as plt
+
+
 def main():
     data = open('input.txt', 'r').read().strip()
     data = [int(c) for c in data]
@@ -26,7 +29,6 @@ def main():
     # result = layers[layer_id].count(1) * layers[layer_id].count(2)
     # print(f'The number of 1*numbers of 2 in layer with least zeroes is: {result}')
 
-
     # PART 2
     final_message = [2 for _ in range(0, len(layers[0]))]
     for layer in layers:
@@ -34,11 +36,10 @@ def main():
             if final_message[i] == 2 and pixel != 2:
                 final_message[i] = pixel
 
-    final_message = [str(c) for c in final_message]
+    image = [final_message[(row*25):(row*25+25)] for row in range(0, 6)]
+    plt.imshow(image)
+    plt.show()
 
-    # Print Result
-    for row in range(0, 6):
-        print(''.join(final_message[(row*25):(row*25+25)]))
 
 if __name__ == "__main__":
     main()
