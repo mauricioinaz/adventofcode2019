@@ -6,68 +6,47 @@ def compute(data, input, last_output, pointer, phase_used):
         B = data[pointer] // 1000 % 10
         C = data[pointer] // 100 % 10
         opcode = data[pointer] % 100
-        if not (opcode == 3 or opcode == 4 or opcode == 99):
-            if C:
-                param1 = data[pointer+1]
-            else:
-                param1 = data[data[pointer+1]]
-            if B:
-                param2 = data[pointer+2]
-            else:
-                param2 = data[data[pointer+2]]
-
+        if opcode != 99:
+            p1_pointer = pointer+1 if C else data[pointer+1]
+            if not (opcode == 3 or opcode == 4):
+                p2_pointer = pointer+2 if B else data[pointer+2]
+                if not (opcode == 5 or opcode == 6):
+                    p3_pointer = pointer+3 if A else data[pointer+3]
         if opcode == 1:
-            if A:
-                data[pointer+3] = param1 + param2
-            else:
-                data[data[pointer+3]] = param1 + param2
+            data[p3_pointer] = data[p1_pointer] + data[p2_pointer]
             pointer += 4
         elif opcode == 2:
-            if A:
-                data[pointer+3] = param1 * param2
-            else:
-                data[data[pointer+3]] = param1 * param2
+            data[p3_pointer] = data[p1_pointer] * data[p2_pointer]
             pointer += 4
         elif opcode == 3:
-            if C:
-                if not phase_used:
-                    data[pointer+1] = input
-                    phase_used = True
-                else:
-                    data[pointer+1] = last_output
+            if not phase_used:
+                data[p1_pointer] = input
+                phase_used = True
             else:
-                if not phase_used:
-                    data[data[pointer+1]] = input
-                    phase_used = True
-                else:
-                    data[data[pointer+1]] = last_output
+                data[p1_pointer] = last_output
             pointer += 2
         elif opcode == 4:
-            if C:
-                last_output = data[pointer+1]
-
-            else:
-                last_output = data[data[pointer+1]]
+            last_output = data[p1_pointer]
             pointer += 2
             return data, last_output, pointer, False, phase_used
         elif opcode == 5:
-            if param1 != 0:
-                pointer = param2
+            if data[p1_pointer] != 0:
+                pointer = data[p2_pointer]
             else:
                 pointer += 3
         elif opcode == 6:
-            if param1 == 0:
-                pointer = param2
+            if data[p1_pointer] == 0:
+                pointer = data[p2_pointer]
             else:
                 pointer += 3
         elif opcode == 7:
-            if param1 < param2:
+            if data[p1_pointer] < data[p2_pointer]:
                 data[data[pointer+3]] = 1
             else:
                 data[data[pointer+3]] = 0
             pointer += 4
         elif opcode == 8:
-            if param1 == param2:
+            if data[p1_pointer] == data[p2_pointer]:
                 data[data[pointer+3]] = 1
             else:
                 data[data[pointer+3]] = 0
