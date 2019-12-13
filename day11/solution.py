@@ -15,6 +15,7 @@ def main():
     data = [int(x) for x in data]
     data = data + [0]*1000
 
+    # Initial parameters
     loc = [50, 50]
     direction = 3
     grid = [['.' for _ in range(100)] for _ in range(100)]
@@ -23,6 +24,8 @@ def main():
     halted = False
     pointer = 0
     rel_base = 0
+
+    # Start Painting Robot
     while not halted:
         # Read panel and paint
         input = 0 if grid[loc[0]][loc[1]] == '.' else 1
@@ -44,7 +47,7 @@ def main():
     # PART 2
     for i, row in enumerate(grid):
         for j, column in enumerate(row):
-            grid[i][j] = 0 if grid[i][j] == '.' else 2
+            grid[i][j] = 0 if column == '.' else 2
     plt.imshow(grid)
     plt.show()
 
